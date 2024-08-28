@@ -1,8 +1,6 @@
-# Linux Networking Configuration
+# Network Configuration Basics
 
-## Network Configuration Basics
-
-### Configuring a Network Adapter
+## Configuring a Network Adapter
 
 - In order to be able to participate in an IP network, a network interface needs an IP address.
 
@@ -30,7 +28,7 @@
 
 - In order to allow our system to use these human friendly names, we need to provide it information about a DNS server or a DNS resolver, a service which takes a host name and returns an associated IP address for it. This isn't handled by the network interface. Instead, it's a separate configuration for the system.
 
-### Interface Management Tools
+## Interface Management Tools
 
 - There are mainly 2 type of tools we need to know about when working with Network Configurations in Linux:
 
@@ -56,7 +54,7 @@
 
 - Again, there are two primary tools we'll need to be aware of here: `dhclient`, which has been used for a long time on many distros, and `dhcpcd`, the DHCP client daemon, which provides many of the same features but is also widespread and is beginning to replace dhclient in newer releases of distros.
 
-### Configuration Management Tools
+## Configuration Management Tools
 
 - When a system restarts, changes that we made using network interface management tools are lost and they need to be recreated.
 
@@ -68,7 +66,7 @@
 
 - `ifupdown` scripts can be run by the user or they can be hooked into the system's initialization manager so they run at boot time and can be controlled by the system's service manager, software like init or systemd, depending on what your distro uses.
 
-- `ifupdown` scripts give us the opportunity to run various other commands and scripts alongside bringing a network interface up or down. `ifupdown` is generally being phased out in modern distros in favor of newer tools that provide updated functionality. 
+- `ifupdown` scripts give us the opportunity to run various other commands and scripts alongside bringing a network interface up or down. `ifupdown` is generally being phased out in modern distros in favor of newer tools that provide updated functionality.
 
 - Another network configuration manager is called `NetworkManager`, and at the time I'm recording this, it's likely to be the most widespread network configuration manager in use on modern distros, especially distros running a desktop environment.
 
@@ -77,3 +75,27 @@
 - `systemd-networkd` is a module for the systemd system management framework that handles network interface configuration. It's not as widely adopted as `NetworkManager`, but it's also quite a bit newer and is often found primarily on systems where there isn't a desktop environment available. `systemd-networkd` provides us the `networkctl` tool, which we can use to view interfaces and, like NetworkManager, we can tell it whether or not we want it to manage particular devices.
 
 - In the Ubuntu world, there's another tool we should be aware of called `netplan`. We can think of this as a network configuration manager configuration manager, because it lets us define a network configuration using a YAML text file and then that configuration is converted into configuration information, either for `NetworkManager` or `systemd-networkd`. Netplan is more of a high-level configuration tool and it lets us build network configurations that can easily be used with deployment or orchestration tools.
+
+## Network Interfaces
+
+- On modern distros, software called `udev` monitors the devices physically attached to the system and informs the operating system about them.
+
+- When the system starts up, udev looks for devices that the system has installed and provides names for network devices so we can interact with them.
+
+- `udev` also runs while the system is running and reports updates or changes in hardware status like plugging in a USB ethernet or WiFi adapter, or plugging in an ethernet cable to an ethernet adapter.
+
+- Udev is an important part of how the system works with hardware, but for our purposes here, we'll just take a little peek at how it works with network devices.
+
+- Once it detects network adapters, `udev` uses what's called `predictable network interface` naming a set of rules that provide a name for each interface on a system based on the information available to udev.
+
+- The goal of predictable naming is to always assign the same name to the same hardware resource over time while predictable naming isn't usually a problem for us when we only have one network adapter.
+
+- It helps to solve the situation where a system has multiple network interfaces. And for whatever reason, the system detects them in a different sequence than it usually does.
+
+- The primary effect of predictable naming that we see as users is that our network interfaces will often have fairly cryptic looking names. The predictable network interface naming rules that udev follows, try to name interfaces, using information about them.
+
+- It can also be useful to find out a little bit about the hardware and interface uses.
+
+- On most systems, we can explore more about our network hardware with the commands, `lspci`, and `lsusb` to investigate devices on the USB and PCI buses.
+
+- And we can also use the `lshw` command to show information about system hardware. With these tools, we can find out the manufacturer of the device, the model, what driver is being used and what the capabilities of the device are.

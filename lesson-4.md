@@ -74,4 +74,16 @@
 
 ## Monitor Network Port Activity
 
+- When we use IP networking, services communicate using sockets.
+
+- A socket is the combination of an address and a port, and there can only be one socket per combination of port and address.
+
+- So for example, if our SSH service is listening on 10.0.1.101 TCP port 22, nothing else on that system can use that socket, that specific combination of address port and protocol.
+
+- Because sockets are so important to communication, it's useful to know how to see what sockets exist on a given system. The legacy net-tools package gives us the program `netstat` for this purpose. And the more modern IP route toolset gives us the program `ss`.
+
+- Both programs work in a similar way and we'll often use whichever program is at our disposal to explore which sockets are actively connected, which are listening and what process or program is responsible for a given socket.
+
+- Across both programs, the option `-t` shows active TCP sockets, `- u` shows active UDP sockets, `- l` shows listening sockets, ones that don't have an active connection and `-p` shows the program or process responsible for a socket.
+
 - 

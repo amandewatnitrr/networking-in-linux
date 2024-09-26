@@ -146,7 +146,7 @@ When your computer powers on and starts running your operating system, it goes t
     **Note**: Trivial File Transfer Protocol (TFTP) is a simple protocol that provides basic file transfer function with no user authentication. TFTP is intended for applications that do not need the sophisticated interactions that File Transfer Protocol (FTP) provides.
 
   - On Linux systems, you can use dnsmasq or tftpd-hpa as TFTP servers.
-  
+
   - Store bootloader files like `pxelinux.0` or other bootloaders (for Windows, wdsnbp.com).
   - Make sure the TFTP server is reachable by the client systems.
 
